@@ -10,12 +10,22 @@ class Battle < ApplicationRecord
     pvp: "pvp"
   }
 
-  aasm(:battle, column: :state, enum: true) do
+  aasm(:battle, column: :state) do
     state :start, initial: true
     state :move_selection
     state :escaped
     state :captured
     state :victory
     state :defeat
+
+    event :escape do
+      transitions from: :start, to: :escaped, if: :escape_attempt_successful?
+    end
+  end
+
+  private
+
+  def escape_attempt_successful?
+    rand(2) == 1
   end
 end

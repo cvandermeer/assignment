@@ -2,3 +2,7 @@ pickachu:
   trainer: ash
   base_pokemon: pickachu
   level: 33
+
+pidgey:
+  base_pokemon: pidgey
+  level: 30
