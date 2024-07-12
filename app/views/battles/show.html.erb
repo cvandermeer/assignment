@@ -1,7 +1,7 @@
 <div class="hero h-auto p-20">
   <div class="hero-content">
     <div class="max-w-md">
-
+      <%= @battle.state %>
 
       <div class="card w-96 shadow-xl mt-20">
         <div class="card-image border-solid border-2 border-primary-content rounded-tl-xl rounded-tr-lg">
@@ -13,10 +13,15 @@
           <h2 class="card-title text-center">
             <%= @battle.trainer.name %> VS <%= @battle.opponent.name %>
           </h2>
-          <p>Implement the actual battle.</p>
+
           <div class="divider"></div>
-          <div class="card-actions">
-            <button class="btn btn-primary">Do something</button>
+            <div class="card-actions">
+
+            <% if @battle.may_escape? %>
+              <%= form_with(model: @battle, method: :put, url: escape_battle_path(@battle)) do |form| %>
+                <%= form.submit "Escape", class: "btn btn-primary" %>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>

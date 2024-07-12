@@ -1,16 +1,17 @@
 class BattlesController < ApplicationController
+  before_action :set_battle, only: %i[show escape]
+
   def index
     @battles = Battle.all
   end
 
   def new
-    @trainer = Trainer.find_or_create_by(name: "Ash Ketchum")
     @opponent = Pokemon.find_by(id: params[:opponent_id])
 
     @battle = Battle.new(
       battle_type: params.fetch(:battle_type, "encounter"),
       opponent: @opponent,
-      trainer: @trainer
+      trainer: current_trainer
     )
   end
 
@@ -25,10 +26,21 @@ class BattlesController < ApplicationController
   end
 
   def show
-    @battle = Battle.find(params[:id])
+  end
+
+  def escape
+    @battle.escape!
+    redirect_to battle_path(@battle)
+
+  rescue AASM::InvalidTransition
+    redirect_to battle_path(@battle), alert: "Failed to escape!"
   end
 
   private
+
+  def set_battle
+    @battle = Battle.find(params[:id])
+  end
 
   def battle_params
     params.

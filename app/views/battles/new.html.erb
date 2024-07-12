@@ -11,13 +11,13 @@
         </div>
         <div class="card-body bg-primary-content rounded-bl-xl rounded-br-lg items-center text-center">
           <h2 class="card-title text-center">
-            <%= @trainer.name %> VS <%= @opponent.name %>
+            <%= current_trainer.name %> VS <%= @opponent.name %>
           </h2>
           <p>Gotta catch 'em all!</p>
           <div class="divider"></div>
           <div class="card-actions">
             <%= form_with(model: @battle) do |form| %>
-              <%= form.hidden_field :trainer_id, value: @trainer.id %>
+              <%= form.hidden_field :trainer_id, value: current_trainer.id %>
               <%= form.hidden_field :opponent_id, value: params[:opponent_id] %>
               <%= form.hidden_field :battle_type, value: params[:battle_type] %>
 
