@@ -1,5 +1,5 @@
 class BattlesController < ApplicationController
-  before_action :set_battle, only: %i[show escape]
+  before_action :set_battle, only: %i[show escape capture]
 
   def index
     @battles = Battle.all
@@ -31,9 +31,11 @@ class BattlesController < ApplicationController
   def escape
     @battle.escape!
     redirect_to battle_path(@battle)
+  end
 
-  rescue AASM::InvalidTransition
-    redirect_to battle_path(@battle), alert: "Failed to escape!"
+  def capture
+    @battle.capture!
+    redirect_to battle_path(@battle)
   end
 
   private

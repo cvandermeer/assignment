@@ -22,6 +22,12 @@
                 <%= form.submit "Escape", class: "btn btn-primary" %>
               <% end %>
             <% end %>
+
+            <% if @battle.may_capture? %>
+              <%= form_with(model: @battle, method: :put, url: capture_battle_path(@battle)) do |form| %>
+                <%= form.submit "Capture", class: "btn btn-primary" %>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>

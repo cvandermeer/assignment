@@ -1,6 +1,8 @@
 class Battle < ApplicationRecord
   include AASM
 
+  class EscapeAttemptFailed < StandardError; end
+
   belongs_to :trainer
 
   has_one :opponent, class_name: "Pokemon", foreign_key: "id", primary_key: "opponent_id"
@@ -18,14 +20,33 @@ class Battle < ApplicationRecord
     state :victory
     state :defeat
 
-    event :escape do
-      transitions from: :start, to: :escaped, if: :escape_attempt_successful?
+    event :escape do 
+      transitions from: :start, to: :escaped, if: :escape_chance_success?      
+      transitions from: :start, to: :start
+    end
+    
+    event :capture do
+      transitions from: :start, to: :captured, if: :capture_attempt_successful?
+      transitions from: :start, to: :escaped, if: :pokemon_flees?
+      transitions from: :start, to: :start
     end
   end
 
   private
 
-  def escape_attempt_successful?
+  def capture_attempt_successful?
+    rand(2) == 1
+  end
+
+  def handle_capture_failure
+    escape! if pokemon_flees?
+  end
+
+  def pokemon_flees?
+    rand(10) < 3
+  end
+  
+  def escape_chance_success?
     rand(2) == 1
   end
 end

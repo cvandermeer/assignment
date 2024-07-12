@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   resources :pokemons, only: :index
   resources :encounters, only: :new
   resources :battles, only: [:new, :create, :show] do
-    put :escape, on: :member
+    member do
+      put :escape
+      put :capture
+    end
   end
 end
