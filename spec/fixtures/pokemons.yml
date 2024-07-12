@@ -2,7 +2,16 @@ pickachu:
   trainer: ash
   base_pokemon: pickachu
   level: 33
+  hp: 40
+  current_hp: 40
+  attack: 20
+  current_attack: 20
 
 pidgey:
+  id: 22
   base_pokemon: pidgey
+  hp: 40
+  current_hp: 40
   level: 30
+  attack: 10
+  current_attack: 10

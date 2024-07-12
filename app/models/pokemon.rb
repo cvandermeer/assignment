@@ -14,4 +14,10 @@ class Pokemon < ApplicationRecord
            :description,
            :pokemon_types,
            :sprite, to: :base_pokemon
+  
+  scope :alive, -> { where('current_hp > 0') }
+
+  def hp_percentage
+    [(current_hp / hp.to_f) * 100, 0].max
+  end
 end

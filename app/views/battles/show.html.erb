@@ -6,7 +6,21 @@
       <div class="card w-96 shadow-xl mt-20">
         <div class="card-image border-solid border-2 border-primary-content rounded-tl-xl rounded-tr-lg">
           <figure class="image-full" style="height:150px">
-            <%= image_tag(@battle.opponent.sprite) %>
+            
+            <div class='absolute top-0 right-10'>
+              <div class="overflow-hidden rounded-full bg-gray-200">
+                <div class="h-2 rounded-full bg-red-600" style="width: <%= @battle.opponent.hp_percentage %>%"></div>
+              </div>
+              <%= image_tag(@battle.opponent.sprite) %>
+            </div>
+            
+            <div class='absolute top-20 left-10'>
+              <div class="overflow-hidden rounded-full bg-gray-200">
+                <div class="h-2 rounded-full bg-red-600" style="width: <%= @trainer_pokemon.hp_percentage %>%"></div>
+              </div>
+              <%= image_tag(@trainer_pokemon.sprite) %>
+            </div>
+            
           </figure>
         </div>
         <div class="card-body bg-primary-content rounded-bl-xl rounded-br-lg items-center text-center">
@@ -28,9 +42,19 @@
                 <%= form.submit "Capture", class: "btn btn-primary" %>
               <% end %>
             <% end %>
+
+            <% if @battle.start? %>
+              <%= form_with(model: @battle, method: :put, url: attack_battle_path(@battle)) do |form| %>
+                <%= form.submit "Attack", class: "btn btn-primary" %>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<% @battle.battle_logs.reverse.each do |battle_log| %>
+  <p><%= battle_log.content %></p>
+<% end %>

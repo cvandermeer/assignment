@@ -1,5 +1,5 @@
 class BattlesController < ApplicationController
-  before_action :set_battle, only: %i[show escape capture]
+  before_action :set_battle, only: %i[show escape capture attack]
 
   def index
     @battles = Battle.all
@@ -26,6 +26,7 @@ class BattlesController < ApplicationController
   end
 
   def show
+    @trainer_pokemon = current_trainer.active_pokemon
   end
 
   def escape
@@ -35,6 +36,11 @@ class BattlesController < ApplicationController
 
   def capture
     @battle.capture!
+    redirect_to battle_path(@battle)
+  end
+
+  def attack
+    @battle.attack!
     redirect_to battle_path(@battle)
   end
 

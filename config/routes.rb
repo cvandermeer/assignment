@@ -10,8 +10,9 @@ Rails.application.routes.draw do
   resources :encounters, only: :new
   resources :battles, only: [:new, :create, :show] do
     member do
-      put :escape
+      put :attack
       put :capture
+      put :escape
     end
   end
 end

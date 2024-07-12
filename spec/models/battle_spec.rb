@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Battle, type: :model do
-  fixtures :battles
+  fixtures :battles, :pokemons, :base_pokemons
 
   describe '.escape' do
     let(:battle) { battles(:started) }
@@ -25,12 +25,22 @@ RSpec.describe Battle, type: :model do
   describe '.capture' do
     let(:battle) { battles(:started) }
 
-    it 'captures the opponent' do
-      allow(battle).to receive(:capture_attempt_successful?).and_return(true)
+    context 'on successfull capture' do
+      it 'captures the opponent' do
+        allow(battle).to receive(:capture_attempt_successful?).and_return(true)
 
-      expect { battle.capture! }
-        .to change(battle, :state)
-        .from(Battle::STATE_START.to_s).to(Battle::STATE_CAPTURED.to_s)
+        expect { battle.capture! }
+          .to change(battle, :state)
+          .from(Battle::STATE_START.to_s).to(Battle::STATE_CAPTURED.to_s)
+      end
+
+      it 'adds the pokemon to trainer' do
+        allow(battle).to receive(:capture_attempt_successful?).and_return(true)
+
+        expect { battle.capture! }
+          .to change(battle.trainer.pokemons, :count)
+          .by(1)
+      end
     end
 
     context 'on a failed capture' do
@@ -60,6 +70,27 @@ RSpec.describe Battle, type: :model do
             .not_to change(battle, :state)
         end
       end
+    end
+  end
+
+  describe '.attack' do
+    let(:battle) { battles(:started) }
+    let(:trainer) { battle.trainer }
+    let(:pickachu) { pokemons(:pickachu) }
+    
+    before do
+      trainer.pokemons << pickachu
+    end
+
+    it 'attacks the opponent' do
+      expect { battle.attack! }
+        .to change { battle.opponent.current_hp }.by(-trainer.active_pokemon.current_attack)
+        .and change(trainer.active_pokemon, :current_hp).by(-battle.opponent.current_attack)
+    end
+
+    it 'logs the attack' do
+      expect { battle.attack! }
+        .to change(battle.battle_logs, :count).by(2)
     end
   end
 end

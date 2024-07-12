@@ -1,0 +1,7 @@
+<p><%= current_trainer.name %></p>
+
+<ul class='w-32'>
+  <% current_trainer.pokemons.each do |pokemon| %>
+    <li><%= "#{pokemon.name} lvl #{pokemon.level}" %> <div class="h-2 rounded-full bg-red-600" style="width: <%= pokemon.hp_percentage %>%"></div></li>
+  <% end %>
+</ul>

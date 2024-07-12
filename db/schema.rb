@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_12_135308) do
   create_table "abilities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "slug"
     t.string "name"
@@ -54,6 +54,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
     t.bigint "base_pokemon_id", null: false
     t.index ["base_pokemon_id", "move_id"], name: "index_base_pokemons_moves_on_base_pokemon_id_and_move_id"
     t.index ["move_id", "base_pokemon_id"], name: "index_base_pokemons_moves_on_move_id_and_base_pokemon_id"
+  end
+
+  create_table "battle_logs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "content"
+    t.bigint "battle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_battle_logs_on_battle_id"
   end
 
   create_table "battles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -127,6 +135,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
     t.index ["secondary_type"], name: "index_type_matchups_on_secondary_type"
   end
 
+  add_foreign_key "battle_logs", "battles"
   add_foreign_key "battles", "trainers"
   add_foreign_key "pokemons", "base_pokemons"
   add_foreign_key "pokemons", "trainers"
