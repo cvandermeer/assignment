@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
-  create_table "abilities", charset: "utf8mb4", force: :cascade do |t|
+  create_table "abilities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "slug"
     t.string "name"
     t.string "description"
@@ -19,14 +19,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "abilities_base_pokemons", id: false, charset: "utf8mb4", force: :cascade do |t|
+  create_table "abilities_base_pokemons", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "ability_id", null: false
     t.bigint "base_pokemon_id", null: false
     t.index ["ability_id", "base_pokemon_id"], name: "index_abilities_base_pokemons_on_ability_id_and_base_pokemon_id"
     t.index ["base_pokemon_id", "ability_id"], name: "index_abilities_base_pokemons_on_base_pokemon_id_and_ability_id"
   end
 
-  create_table "base_pokemons", charset: "utf8mb4", force: :cascade do |t|
+  create_table "base_pokemons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "dex_index"
     t.string "name"
     t.string "slug"
@@ -49,14 +49,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "base_pokemons_moves", id: false, charset: "utf8mb4", force: :cascade do |t|
+  create_table "base_pokemons_moves", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "move_id", null: false
     t.bigint "base_pokemon_id", null: false
     t.index ["base_pokemon_id", "move_id"], name: "index_base_pokemons_moves_on_base_pokemon_id_and_move_id"
     t.index ["move_id", "base_pokemon_id"], name: "index_base_pokemons_moves_on_move_id_and_base_pokemon_id"
   end
 
-  create_table "battles", charset: "utf8mb4", force: :cascade do |t|
+  create_table "battles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "trainer_id", null: false
     t.string "battle_type"
     t.integer "opponent_id", null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
     t.index ["trainer_id"], name: "index_battles_on_trainer_id"
   end
 
-  create_table "moves", charset: "utf8mb4", force: :cascade do |t|
+  create_table "moves", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "slug"
     t.string "description"
@@ -82,7 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "pokemons", charset: "utf8mb4", force: :cascade do |t|
+  create_table "pokemons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "base_pokemon_id", null: false
     t.bigint "trainer_id"
     t.integer "hp"
@@ -106,13 +106,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_220706) do
     t.index ["trainer_id"], name: "index_pokemons_on_trainer_id"
   end
 
-  create_table "trainers", charset: "utf8mb4", force: :cascade do |t|
+  create_table "trainers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "type_matchups", charset: "utf8mb4", force: :cascade do |t|
+  create_table "type_matchups", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "primary_type"
     t.string "secondary_type"
     t.text "strong_against"

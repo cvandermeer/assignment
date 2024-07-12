@@ -1,13 +1,17 @@
 class RandomPokemon
   class << self
-    def retrieve
+    def retrieve(trainer = nil)
       sample_base_pokemon = BasePokemon.all.sample
 
       return if sample_base_pokemon.nil?
 
+      strongest_pokemon_level = trainer.pokemons.maximum(:level) if trainer
+      level = strongest_pokemon_level ? strongest_pokemon_level + rand(-3..3) : 1
+      level = [level, 1].max
+
       sample_base_pokemon.pokemons.create(
         trainer: nil,
-        level: 1,
+        level: level,
         hp: 1,
         attack: 1,
         special_attack: 1,
