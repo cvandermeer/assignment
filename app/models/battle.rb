@@ -42,24 +42,14 @@ class Battle < ApplicationRecord
   end
 
   def attack!
-    trainer_active_pokemon = trainer.active_pokemon
-    trainer_damage = trainer_active_pokemon.current_attack
-    opponent.current_hp -= trainer_damage
-    opponent.save!
-    battle_logs.create!(content: "#{trainer_active_pokemon.name} attacks #{opponent.name} for #{trainer_damage} damage")
-
-    if opponent.current_hp <= 0 
-      return trainer_wins!
-    end
-
-    opponent_damage = opponent.current_attack
-
-    trainer_active_pokemon.current_hp -= opponent_damage
-    trainer_active_pokemon.save!
-    battle_logs.create!(content: " #{opponent.name} attacks #trainer_active_pokemon.name} for #{opponent_damage} damage")
-    
-    if trainer.active_pokemon.nil?
-      trainer_loses!
+    trainer_pokemon = trainer.active_pokemon
+    attack_order = [trainer_pokemon, opponent].sort_by(&:current_speed).reverse
+    attack_order.each do |attacker|
+      defender = attack_order.find { |pokemon| pokemon != attacker }
+      pokemon_attack(attacker, defender)
+      
+      return trainer_loses! if trainer_pokemon.current_hp <= 0 
+      return trainer_wins! if opponent.current_hp <= 0 
     end
   end
 
@@ -83,5 +73,11 @@ class Battle < ApplicationRecord
 
   def add_pokemon_to_trainer
     trainer.pokemons << opponent
+  end
+  
+  def pokemon_attack(pokemon_a, pokemon_b)
+    pokemon_b.current_hp -= pokemon_a.current_attack
+    pokemon_b.save!
+    battle_logs.create!(content: "#{pokemon_a.name} attacks #{pokemon_b.name} for #{pokemon_a.current_attack} damage")
   end
 end

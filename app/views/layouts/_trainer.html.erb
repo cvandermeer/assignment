@@ -5,3 +5,7 @@
     <li><%= "#{pokemon.name} lvl #{pokemon.level}" %> <div class="h-2 rounded-full bg-red-600" style="width: <%= pokemon.hp_percentage %>%"></div></li>
   <% end %>
 </ul>
+
+<%= form_with(model: current_trainer, method: :put, url: heal_all_pokemon_trainer_path(current_trainer)) do |form| %>
+  <%= form.submit "Heal all pokemon", class: "btn btn-primary" %>
+<% end %>

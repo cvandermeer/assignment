@@ -6,13 +6,16 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :base_pokemons, only: :index
-  resources :pokemons, only: :index
-  resources :encounters, only: :new
   resources :battles, only: [:new, :create, :show] do
     member do
       put :attack
       put :capture
       put :escape
     end
+  end
+  resources :encounters, only: :new
+  resources :pokemons, only: :index
+  resources :trainers, only: [] do
+    put :heal_all_pokemon, on: :member
   end
 end

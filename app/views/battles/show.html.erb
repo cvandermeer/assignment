@@ -16,9 +16,9 @@
             
             <div class='absolute top-20 left-10'>
               <div class="overflow-hidden rounded-full bg-gray-200">
-                <div class="h-2 rounded-full bg-red-600" style="width: <%= @trainer_pokemon.hp_percentage %>%"></div>
+                <div class="h-2 rounded-full bg-red-600" style="width: <%= @trainer_pokemon&.hp_percentage %>%"></div>
               </div>
-              <%= image_tag(@trainer_pokemon.sprite) %>
+              <%= image_tag(@trainer_pokemon.sprite) if @trainer_pokemon %>
             </div>
             
           </figure>
